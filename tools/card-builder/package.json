@@ -8,6 +8,7 @@
     "sync-data": "node scripts/sync-data.mjs",
     "sync-data:jp": "node scripts/sync-limitless-jp.mjs",
     "generate:implemented-ids": "node scripts/generate-implemented-ids.mjs",
+    "download:arts": "node scripts/download-implemented-arts.mjs",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"

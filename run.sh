@@ -36,6 +36,15 @@ if [ ! -f ptcgo_server.db ]; then
     python spirit/database/setup_db.py
 fi
 
+if command -v node >/dev/null 2>&1 && [ ! -f tools/card-builder/implementedCardIds.json ]; then
+    echo "[setup] Syncing data..."
+    (cd tools/card-builder && npm run sync-data && npm run sync-data:jp -- --sets M6)
+    echo "[setup] Generating implented card list..."
+    (cd tools/card-builder && npm run generate:implemented-ids)
+    echo "[setup] Downloading card arts..."
+    (cd tools/card-builder && npm run download:arts)
+fi
+
 export PYTHONPATH="$PWD"
 echo "[run] Starting SpiritPTCGO..."
 python -m spirit.main

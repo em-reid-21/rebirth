@@ -232,7 +232,7 @@ original_game_cache/
 spirit/assets/bundleCache/
 # The Logos bundle (top-nav Home button logo) is tiny + essential UI; ship it so a
 # fresh clone has a working Home button without needing a local game install.
-!spirit/assets/cards/
+spirit/assets/cards/
 # Static localization reference data must ship with the repo (server loads it at
 # startup; a git-clone deploy has no other source). Runtime account/user DBs stay ignored.
 !spirit/database/game_data/LocalizationDB-UTF8.db

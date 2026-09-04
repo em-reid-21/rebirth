@@ -8,3 +8,4 @@ dist/
 data/pokemon-tcg-data/
 data/limitless-jp/
 implementedCardIds.json
+downloadedArtsStats.json

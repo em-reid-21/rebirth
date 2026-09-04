@@ -12,6 +12,7 @@ export const JP_TO_SPIRIT = {
   M3: 'ME3',
   M4: 'ME4',
   M5: 'ME5',
+  M6: 'ME6',
   SV6a: 'SV065',
   SV8a: 'SV085',
 };
