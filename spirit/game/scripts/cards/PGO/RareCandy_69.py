@@ -1,7 +1,7 @@
 from spirit.game.data_utils import ItemCardDef, evolves_from
 from spirit.game.attributes import Rarities, AttrID, PokemonStage
-from spirit.game.session.effects import is_basic_pokemon, is_pokemon_card
-
+from spirit.game.models.board import BoardState
+from spirit.game.session.effects import EffectContext, is_basic_pokemon, is_pokemon_card
 
 def _stage2_matches(hand_cards, logic_name):
     return [
@@ -18,15 +18,21 @@ def _turn_eligible_basics(board, player_id):
         return []
     return [
         p for p in board.pokemon_in_play(player_id)
-        if is_basic_pokemon(p) and turn_state.may_evolve_target(p.entity_id)
+        if is_basic_pokemon(p) and turn_state.may_evolve_target(p.entity_id) and _stage2_matches(board.find_player_area(player_id, "hand").children, p.get_attribute(AttrID.EVOLUTION_LOGIC_NAME))
     ]
 
 
-def _rare_candy_condition(board, player_id):
-    return bool(_turn_eligible_basics(board, player_id))
+def _rare_candy_condition(board: BoardState, player_id):
+    hand = board.find_player_area(player_id, "hand")
+    hand_cards = hand.children if hand else []
+    return any(
+        _stage2_matches(hand_cards, basic.get_attribute(AttrID.EVOLUTION_LOGIC_NAME))
+        for basic in _turn_eligible_basics(board, player_id)
+        if basic.get_attribute(AttrID.EVOLUTION_LOGIC_NAME)
+    )
 
 
-async def _rare_candy(ctx):
+async def _rare_candy(ctx: EffectContext):
     """Choose a Basic Pokemon in play; if you have a Stage 2 in hand that evolves from it, put that card onto it, skipping the Stage 1."""
     candidates = _turn_eligible_basics(ctx.board, ctx.player_id)
     if not candidates:

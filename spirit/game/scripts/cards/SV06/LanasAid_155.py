@@ -3,6 +3,14 @@ from spirit.game.attributes import Rarities
 from spirit.game.card_effects.trainers import is_basic_energy_card
 from spirit.game.session.effects import is_pokemon_card
 
+def _lanas_aid_condition(board, player_id):
+    discard_pile = board.find_player_area(player_id, "discard")
+    discard_cards = discard_pile.children if discard_pile else []
+    return any(
+        is_pokemon_card(c) and not has_rule_box(c.archetype_id)
+        or is_basic_energy_card(c)
+        for c in discard_cards
+    )
 
 async def lanas_aid(ctx):
     pokemon_candidates = [
@@ -40,5 +48,6 @@ card = SupporterCardDef(
     regulation_mark="H",
     rarity=Rarities.Uncommon,
     effect=lanas_aid,
+    condition=_lanas_aid_condition
 )
 

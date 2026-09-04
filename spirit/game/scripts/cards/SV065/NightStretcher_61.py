@@ -6,6 +6,13 @@ from spirit.game.card_effects.trainers import is_basic_energy_card
 
 NIGHT_STRETCHER_GUID = "5373ca9e-2b8b-49d2-9758-ed83cfe47924"
 
+def _night_stretcher_condition(board, player_id):
+    discard_pile = board.find_player_area(player_id, "discard")
+    discard_cards = discard_pile.children if discard_pile else []
+    return any(
+        is_pokemon_card(c) or is_basic_energy_card(c)
+        for c in discard_cards
+    )
 
 async def night_stretcher(ctx):
     candidates = [
@@ -36,5 +43,6 @@ card = ItemCardDef(
     regulation_mark="H",
     rarity=Rarities.Uncommon,
     effect=night_stretcher,
+    condition=_night_stretcher_condition
 )
 

@@ -1,25 +1,25 @@
 from spirit.game.data_utils import SupporterCardDef
 from spirit.game.attributes import Rarities
 from spirit.game.session.effects import (
+    EffectContext,
     is_basic_pokemon,
     is_stage1_pokemon,
     is_stage2_pokemon,
 )
 
 
-async def dawn(ctx):
+async def dawn(ctx: EffectContext):
     """Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2
     Pokémon, reveal them, and put them into your hand. Then, shuffle your deck."""
-    picks = []
-    for predicate, prompt in (
-        (is_basic_pokemon, "Choose a Basic Pokémon to put into your hand."),
-        (is_stage1_pokemon, "Choose a Stage 1 Pokémon to put into your hand."),
-        (is_stage2_pokemon, "Choose a Stage 2 Pokémon to put into your hand."),
-    ):
-        picks.extend(await ctx.search_deck(
-            predicate, count=1, minimum=0, prompt=prompt,
-        ))
-    await ctx.put_in_hand(picks, reveal=True)
+    basic, stage1, stage2 = await ctx.search_deck_groups(
+        [
+            (is_basic_pokemon, 1, "Choose a Basic Pokémon to put into your hand."),
+            (is_stage1_pokemon, 1, "Choose a Stage 1 Pokémon to put into your hand."),
+            (is_stage2_pokemon, 1, "Choose a Stage 2 Pokémon to put into your hand."),
+        ],
+        prompt="Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon.",
+    )
+    await ctx.put_in_hand(basic + stage1 + stage2, reveal=True)
     await ctx.shuffle_deck()
 
 
