@@ -4601,11 +4601,11 @@ class GameSession:
         owner_id = pokemon.owning_player_id
         if area is None or owner_id is None:
             return None
-        evolves_from = pokemon.get_attribute(AttrID.EVOLUTION_LOGIC_FROM)
+        # Rare Candy skips a stage, so the tucked card's name can differ
+        # from EVOLUTION_LOGIC_FROM (Meganium tucks Chikorita); any tucked
+        # Pokemon still counts as the previous stage.
         prev = next(
-            (c for c in pokemon.children
-             if isinstance(c, PokemonEntity)
-             and c.get_attribute(AttrID.EVOLUTION_LOGIC_NAME) == evolves_from),
+            (c for c in pokemon.children if isinstance(c, PokemonEntity)),
             None,
         )
         dest = self.board_state.find_player_area(owner_id, destination_name)

@@ -1075,26 +1075,23 @@ class TeraRulePassive(Passive):
 # --- Devolution (Rewind Beam / Downgrading Beam / Curse of Devolution) ----
 
 def devolvable(pokemon) -> bool:
-    """An evolved in-play Pokemon with its previous stage tucked underneath."""
-    evolves_from = pokemon.get_attribute(AttrID.EVOLUTION_LOGIC_FROM)
-    return bool(evolves_from) and any(
-        isinstance(c, PokemonEntity)
-        and c.get_attribute(AttrID.EVOLUTION_LOGIC_NAME) == evolves_from
-        for c in pokemon.children
-    )
+    """An evolved in-play Pokemon with its previous stage tucked underneath.
+
+    Rare Candy skips a stage, so the tucked card's name can differ from
+    EVOLUTION_LOGIC_FROM (Meganium tucks Chikorita, not Bayleef) -- any
+    tucked Pokemon still counts as a previous stage to devolve into.
+    """
+    return any(isinstance(c, PokemonEntity) for c in pokemon.children)
 
 
 def devolve_depth(pokemon) -> int:
     """How many evolution cards can be peeled off the stack."""
     depth, current = 0, pokemon
     while True:
-        evolves_from = current.get_attribute(AttrID.EVOLUTION_LOGIC_FROM)
         nxt = next(
-            (c for c in current.children
-             if isinstance(c, PokemonEntity)
-             and c.get_attribute(AttrID.EVOLUTION_LOGIC_NAME) == evolves_from),
+            (c for c in current.children if isinstance(c, PokemonEntity)),
             None,
-        ) if evolves_from else None
+        )
         if nxt is None:
             return depth
         depth, current = depth + 1, nxt
