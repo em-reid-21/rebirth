@@ -1,13 +1,35 @@
-from spirit.game.card_effects.support_common import shuffle_hand_into_deck_draw
-from spirit.game.data_utils import SupporterCardDef, unimplemented
+from spirit.game.data_utils import SupporterCardDef
 from spirit.game.attributes import Rarities
 from spirit.game.session.effects import EffectContext
 
-def rockets_admin_effect(ctx: EffectContext):
-    """Each player shuffles their hand into their deck and draws cards equal to the number of prizes they have."""
+
+async def rockets_admin_effect(ctx: EffectContext):
+    """Each player shuffles his or her hand into his or her deck. Then,
+    each player counts his or her Prize cards left and chooses to draw up to
+    that many cards. (You draw your cards first.)"""
     player_prizes = len(ctx.board.find_player_area(ctx.player_id, "prizePile").children)
     opponent_prizes = len(ctx.board.find_player_area(ctx.opponent_id, "prizePile").children)
-    return shuffle_hand_into_deck_draw(n=player_prizes, opponent_n=opponent_prizes)(ctx)
+
+    await ctx.shuffle_into_deck(ctx.hand(), ctx.player_id)
+    player_draw = await ctx.choose(
+        "Choose how many cards to draw.",
+        [str(i) for i in range(1, player_prizes + 1)],
+        player_id=ctx.player_id,
+        use_panel=False,
+    )
+    # ctx.choose returns the index of the selected option, so add 1 to get the actual number of cards to draw.
+    await ctx.draw_cards(player_draw + 1, ctx.player_id)
+
+    await ctx.flush_choreography()
+
+    await ctx.shuffle_into_deck(ctx.hand(ctx.opponent_id), ctx.opponent_id)
+    opponent_draw = await ctx.choose(
+        "Choose how many cards to draw.",
+        [str(i) for i in range(1, opponent_prizes + 1)],
+        player_id=ctx.opponent_id,
+        use_panel=False,
+    )
+    await ctx.draw_cards(opponent_draw + 1, ctx.opponent_id)
 
 card = SupporterCardDef(
     guid="c3c090b0-c699-54e5-ab59-60890a9c6fd6",
