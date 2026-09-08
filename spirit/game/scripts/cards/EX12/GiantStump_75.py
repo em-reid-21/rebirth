@@ -1,4 +1,4 @@
-from spirit.game.data_utils import StadiumCardDef, unimplemented
+from spirit.game.data_utils import StadiumCardDef
 from spirit.game.attributes import Rarities
 from spirit.game.session.passives import Passive
 

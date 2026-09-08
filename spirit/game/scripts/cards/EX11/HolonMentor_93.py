@@ -2,7 +2,6 @@ from spirit.game.data_utils import SupporterCardDef
 from spirit.game.attributes import AttrID, Rarities
 from spirit.game.session.effects import is_basic_pokemon
 from spirit.game.session.effects import EffectContext
-from spirit.game.card_effects.support_common import search_to_hand
 from spirit.game.session.game_session import BoardState
 
 def holon_mentor_condition(board: BoardState, player_id: str, card=None) -> bool:

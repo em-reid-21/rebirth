@@ -1,8 +1,6 @@
-from spirit.game.card_effects import pokemon
-from spirit.game.card_effects.trainers import is_basic_energy_card
-from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Activations, Triggers, unimplemented
+from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Triggers
 from spirit.game.attributes import PokemonStage, PokemonTypes, Rarities
-from spirit.game.session.effects import AbilityTypes, EffectContext, has_rule_box, is_pokemon_card
+from spirit.game.session.effects import AbilityTypes, EffectContext, is_pokemon_card
 from spirit.game.session.passives import TurnDamageModifier
 
 async def evolutionary_call_effect(ctx: EffectContext):
@@ -40,10 +38,6 @@ async def delta_reduction_effect(ctx: EffectContext):
         opposing_active_only=False,
         expires_after_turn=ctx.session.turn_state.turn_number + 1,
     ))
-    await ctx.add_stat_visualization(
-        defender, "Negative", "DamageDealtDecreased", card_text="-30 damage"
-    )
-
 
 card = PokemonCardDef(
     guid="3fcc4658-9699-5852-9f76-2a81996bad6c",

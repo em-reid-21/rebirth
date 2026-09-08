@@ -19,7 +19,7 @@ def _is_researcher_target(card):
         is_pokemon_card(card) and _has_delta_on_card(card)
     )
 
-async def holon_researcher_effect(ctx):
+async def holon_researcher_effect(ctx: EffectContext):
     """Search your deck for a [M] Energy card or a Basic Pokémon (or Evolution card) that has δ on its card, show it to your opponent, and put it into your hand. Shuffle your deck afterward."""
     discarded = await ctx.discard_from_hand(
         1,

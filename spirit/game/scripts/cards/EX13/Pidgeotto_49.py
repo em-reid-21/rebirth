@@ -1,4 +1,4 @@
-from spirit.game.data_utils import PokemonCardDef, Attack, unimplemented
+from spirit.game.data_utils import PokemonCardDef, Attack
 from spirit.game.attributes import PokemonStage, PokemonTypes, Rarities
 from spirit.game.session.effects import EffectContext
 

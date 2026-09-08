@@ -1,4 +1,4 @@
-from spirit.game.data_utils import SupporterCardDef, is_pokemon_ex, unimplemented
+from spirit.game.data_utils import SupporterCardDef, is_pokemon_ex
 from spirit.game.attributes import Rarities
 from spirit.game.session.effects import EffectContext, full_stack
 

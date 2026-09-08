@@ -1,7 +1,6 @@
 from spirit.game.card_effects.support_common import more_prizes_remaining_than_opponent
-from spirit.game.data_utils import PokemonCardDef, Attack, Ability, unimplemented
+from spirit.game.data_utils import PokemonCardDef, Attack, Ability
 from spirit.game.attributes import AbilityTypes, AttrID, PokemonStage, PokemonTypes, Rarities
-from spirit.game.models import board
 from spirit.game.session.effects import EffectContext
 from spirit.game.session.passives import Passive
 

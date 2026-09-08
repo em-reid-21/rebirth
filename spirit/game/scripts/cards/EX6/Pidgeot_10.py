@@ -1,6 +1,6 @@
 from spirit.game.card_effects.support_common import _has_conditions
-from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Activations, unimplemented
-from spirit.game.attributes import AbilityTypes, AttrID, PokemonStage, PokemonTypes, Rarities
+from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Activations
+from spirit.game.attributes import AbilityTypes, PokemonStage, PokemonTypes, Rarities
 from spirit.game.models.board import BoardState
 from spirit.game.session.effects import EffectContext
 from spirit.game.session.passives import PokemonEntity

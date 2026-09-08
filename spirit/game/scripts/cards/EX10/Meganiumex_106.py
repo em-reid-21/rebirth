@@ -1,9 +1,9 @@
 from spirit.game.card_effects.support_common import _has_conditions
 from spirit.game.card_effects.trainers import is_basic_energy_card, is_grass_energy_card
-from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Activations, unimplemented
+from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Activations
 from spirit.game.attributes import AbilityTypes, PokemonStage, PokemonTypes, Rarities, SpecialConditions
 from spirit.game.models.board import BoardState, PokemonEntity
-from spirit.game.session.effects import EffectContext, is_special_energy
+from spirit.game.session.effects import EffectContext
 from typing import cast
 
 
