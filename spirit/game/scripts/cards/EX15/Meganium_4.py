@@ -1,3 +1,4 @@
+from spirit.game.card_effects import pokemon
 from spirit.game.card_effects.trainers import is_basic_energy_card
 from spirit.game.data_utils import PokemonCardDef, Attack, Ability, Activations, Triggers, unimplemented
 from spirit.game.attributes import PokemonStage, PokemonTypes, Rarities
@@ -7,10 +8,8 @@ from spirit.game.session.passives import TurnDamageModifier
 async def evolutionary_call_effect(ctx: EffectContext):
     """Once during your turn, when you play Meganium from your hand to evolve 1 of your Pokémon, you may search your deck for up to 3 in any combination of Basic Pokémon or Evolution cards. Show them to your opponent and put them into your hand. Shuffle your deck afterward."""
     if await ctx.ask_yes_no("Search your deck for up to 3 Basic Pokémon or Evolution cards?"):
-        pokemon_candidates = [
-            c for c in ctx.deck()
-            if is_pokemon_card(c)
-        ]
+        deck_cards = ctx.deck()
+        pokemon_candidates = [c for c in deck_cards if is_pokemon_card(c)]
 
         if not pokemon_candidates:
             return
@@ -22,6 +21,7 @@ async def evolutionary_call_effect(ctx: EffectContext):
             prompt=(
                 "Choose up to 3 Basic Pokémon or Evolution cards to put into your hand."
             ),
+            display_cards=deck_cards,
         )
         if picks:
             await ctx.put_in_hand(picks, reveal=True)
@@ -30,6 +30,7 @@ async def evolutionary_call_effect(ctx: EffectContext):
 
 async def delta_reduction_effect(ctx: EffectContext):
     """During your opponent's next turn, any damage done by attacks from the Defending Pokémon is reduced by 30 (before applying Weakness and Resistance)."""
+    await ctx.deal_damage()
     defender = ctx.defender
     if defender is None:
         return
@@ -39,6 +40,10 @@ async def delta_reduction_effect(ctx: EffectContext):
         opposing_active_only=False,
         expires_after_turn=ctx.session.turn_state.turn_number + 1,
     ))
+    await ctx.add_stat_visualization(
+        defender, "Negative", "DamageDealtDecreased", card_text="-30 damage"
+    )
+
 
 card = PokemonCardDef(
     guid="3fcc4658-9699-5852-9f76-2a81996bad6c",

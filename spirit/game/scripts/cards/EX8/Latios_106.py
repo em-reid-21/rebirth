@@ -7,6 +7,7 @@ from typing import cast
 
 async def miraculous_light_effect(ctx: EffectContext):
     """Remove 1 damage counter and all Special Conditions from Latios Star."""
+    await ctx.deal_damage()
     attacker = cast(PokemonEntity, ctx.attacker)
     await ctx.heal(10, attacker)
     await ctx.cure_all_conditions(attacker)

@@ -21,7 +21,7 @@ async def quick_search_effect(ctx: EffectContext):
         prompt="Choose a card from your deck to put into your hand.",
     )
     if picks:
-        await ctx.put_in_hand(picks, reveal=True)
+        await ctx.put_in_hand(picks, reveal=False)
     await ctx.shuffle_deck()
 
 def clutch_effect(ctx: EffectContext):

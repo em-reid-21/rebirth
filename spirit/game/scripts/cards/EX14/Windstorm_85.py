@@ -36,7 +36,7 @@ async def windstorm_effect(ctx: EffectContext):
     picks = await ctx.choose_cards(
         targets,
         2,
-        minimum=0,
+        minimum=1,
         prompt="Choose up to 2 Pokémon Tools or Stadiums to discard",
     )
     await ctx.discard_cards(picks)

@@ -9,6 +9,15 @@ from spirit.game.session.game_session import BoardState
 from spirit.game.session.legal_actions import PokemonEntity
 from spirit.game.session.passives import effective_bench_capacity
 
+def holons_voltorb_attach_condition(board: BoardState, player_id: str, card: CardEntity) -> bool:
+    bench = board.find_player_area(player_id, "bench")
+    has_bench_space = bench is not None and len(bench.children) < \
+        effective_bench_capacity(board, player_id)
+    energy_attachment_available = not getattr(
+        getattr(board, "turn_state", None), "energy_attached", False
+    )
+    return has_bench_space or energy_attachment_available
+
 async def holons_voltorb_attach(ctx: EffectContext):
     bench = ctx.board.find_player_area(ctx.player_id, "bench")
     has_bench_space = bench is not None and len(bench.children) < \
@@ -62,6 +71,7 @@ card = PokemonCardDef(
             activation=Activations.ONCE_PER_TURN,
             usable_from="hand",
             effect=holons_voltorb_attach,
+            condition=holons_voltorb_attach_condition,
         ),
 
         Attack(

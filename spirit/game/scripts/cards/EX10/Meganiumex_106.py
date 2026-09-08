@@ -40,6 +40,7 @@ async def nurture_and_heal_effect(ctx: EffectContext):
 
 async def power_poison_effect(ctx: EffectContext):
     """Discard 1 Energy attached to Meganium ex. The Defending Pokémon is now Poisoned."""
+    await ctx.deal_damage()
     if not ctx.board.attached_energies(ctx.source):
         return
     energy_to_discard = await ctx.choose_cards(

@@ -24,10 +24,13 @@ def holons_castform_attach_condition(board: BoardState, player_id: str, card: Ca
     bench = board.find_player_area(player_id, "bench")
     has_bench_space = bench is not None and len(bench.children) < \
         effective_bench_capacity(board, player_id)
+    energy_attachment_available = not getattr(
+        getattr(board, "turn_state", None), "energy_attached", False
+    )
     has_energy_target = any(
         board.attached_energies(pokemon)
         for pokemon in board.pokemon_in_play(player_id)
-    )
+    ) and energy_attachment_available
     return has_bench_space or has_energy_target
 
 

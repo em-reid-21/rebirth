@@ -25,9 +25,8 @@ async def holon_mentor_effect(ctx: EffectContext):
     if not discarded:
         return
 
-    pokemon_candidates = [
-        card for card in ctx.deck() if holon_mentor_matching(card)
-    ]
+    deck_cards = ctx.deck()
+    pokemon_candidates = [card for card in deck_cards if holon_mentor_matching(card)]
 
     picks = await ctx.choose_cards(
         pokemon_candidates,
@@ -36,6 +35,7 @@ async def holon_mentor_effect(ctx: EffectContext):
         prompt=(
             "Choose up to 3 Basic Pokémon that each has 100 HP or less."
         ),
+        display_cards=deck_cards,
     )
     if picks:
         await ctx.put_in_hand(picks, reveal=True)

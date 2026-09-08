@@ -15,19 +15,9 @@ class _RageAuraPassive(Passive):
         owner = carrier.owning_player_id
         if owner is None:
             return cost
-        opponent = next((p for p in board.player_ids if p != owner), None)
-        if opponent is None:
-            return cost
-
-
-        if not more_prizes_remaining_than_opponent(board, board.player_ids[0]):
+        if not more_prizes_remaining_than_opponent(board, owner):
             return cost
         if "Colorless" not in cost:
-            return cost
-
-        remaining = cost["Colorless"] - 1
-        if remaining > 0:
-            cost["Colorless"] = remaining
             return cost
         del cost["Colorless"]
         return cost
@@ -70,7 +60,7 @@ card = PokemonCardDef(
             title="Rage Aura",
             ability_type=AbilityTypes.POKE_BODY,
             game_text="If you have more Prize cards left than your opponent, ignore all Colorless Energy necessary to use Rayquaza ex's Special Circuit and Sky-high Claws attacks.",
-            effect=_RageAuraPassive(),
+            passive=_RageAuraPassive(),
         ),
         Attack(
             title="Special Circuit",
