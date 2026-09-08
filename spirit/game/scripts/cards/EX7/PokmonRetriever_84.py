@@ -13,7 +13,8 @@ def pokmon_retriever_condition(board: BoardState, player_id: str, card=None) -> 
 def _is_retrievable(card):
     return is_pokemon_card(card) and (
         "Basic" in subtypes_for(card.archetype_id)
-        or "Evolution" in subtypes_for(card.archetype_id)
+        or "Stage 1" in subtypes_for(card.archetype_id)
+        or "Stage 2" in subtypes_for(card.archetype_id)
     )
 
 
