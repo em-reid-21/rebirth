@@ -38,7 +38,8 @@ class _ShieldBeamPassive(Passive):
     def blocks_abilities(self, pokemon, carrier):
         return pokemon.owning_player_id != carrier.owning_player_id
 
-def shield_beam_effect(ctx: EffectContext):
+async def shield_beam_effect(ctx: EffectContext):
+    await ctx.deal_damage()
     """During your opponent's next turn, your opponent can't use any Poké-Powers on his or her Pokémon."""
     ctx.add_passive_through_opponents_turn(ctx.source, _ShieldBeamPassive())
 
