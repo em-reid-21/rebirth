@@ -100,6 +100,13 @@ class DeckValidator:
                 "A deck can contain only 1 ACE SPEC card.",
                 sorted({c.guid.lower() for c in ace_spec})))
 
+        star = [c for c in self.cards if "Star" in (c.subtypes or [])]
+        if len(star) > 1:
+            details.append(_detail(
+                "MaxDuplicates",
+                "A deck can contain only 1 Pokemon Star card.",
+                sorted({c.guid.lower() for c in star})))
+
         if not any(_is_basic_pokemon_card(c) for c in self.cards):
             details.append(_detail(
                 "MustContain",

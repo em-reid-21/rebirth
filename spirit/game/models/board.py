@@ -370,6 +370,13 @@ class BoardState:
         if not isinstance(card, CardEntity) or not isinstance(to_area, PlayArea):
             return False
 
+        # Pokemon that temporarily become Energy (Holon's Castform) must use
+        # their Pokemon entity type again once they leave an attachment.
+        if isinstance(card, EnergyEntity) \
+                and card.card_obj.get_attribute_value(AttrID.CARD_TYPE) == CardType.POKEMON.value:
+            card.set_attribute(AttrID.CARD_TYPE, CardType.POKEMON.value)
+            object.__setattr__(card, "__class__", PokemonEntity)
+
         if card.parent_id:
             parent = self.get_entity(card.parent_id)
             if parent:

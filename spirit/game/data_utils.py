@@ -148,6 +148,7 @@ def reprint(
             passive=getattr(base, "passive", None),
             unplayable_from_hand=bool(getattr(base, "unplayable_from_hand", False)),
             setup_as_active=bool(getattr(base, "setup_as_active", False)),
+            energy_provides=getattr(base, "energy_provides", None),
         )
 
     if isinstance(base, TrainerCardDef):
@@ -617,7 +618,8 @@ class PokemonCardDef(CardDefinition):
         regulation_mark: Optional[str] = None,
         passive: Optional[Any] = None,
         unplayable_from_hand: bool = False,
-        setup_as_active: bool = False
+        setup_as_active: bool = False,
+        energy_provides: Optional[List[List[PokemonTypes]]] = None,
     ):
         super().__init__(
             guid, key, name, collector_number, set_code, rarity,
@@ -632,6 +634,9 @@ class PokemonCardDef(CardDefinition):
         # Luxray CZ's Explosiveness: may be placed as the opening Active
         # despite its stage (setup only; bench plays stay Basics-only).
         self.setup_as_active = setup_as_active
+        # Pokemon that can be attached as special energy (Holon's Castform)
+        self.energy_provides = energy_provides
+        self.as_energy = energy_provides is not None
 
         # Add Pokemon-specific defaults to extra_attributes
         self.extra_attributes.update({
@@ -643,6 +648,18 @@ class PokemonCardDef(CardDefinition):
             str(AttrID.WEAKNESS_TYPES.value): {"type": "json", "value": json.dumps([weakness_type.value] if weakness_type != PokemonTypes.UNSET else [])},
             str(AttrID.RESISTANCE_TYPES.value): {"type": "int", "value": resistance_type.value},
         })
+
+        # Handle special energy provides and mark as special energy
+        if energy_provides is not None:
+            self.extra_attributes[str(AttrID.ENERGY_INFO.value)] = {
+                "type": "json",
+                "value": json.dumps({
+                    "options": [[t.value for t in option] for option in energy_provides]
+                }),
+            }
+            self.extra_attributes[str(AttrID.IS_SPECIAL_ENERGY.value)] = {
+                "type": "bool", "value": True
+            }
 
         if weakness_type != PokemonTypes.UNSET:
             self.extra_attributes.update({

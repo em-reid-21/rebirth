@@ -1890,5 +1890,200 @@
     "featuredArchetypes": [],
     "visibleUnfilterable": false,
     "promo": false
+  },
+  {
+    "name": "EX13",
+    "externalId": "HP",
+    "number": 1350,
+    "count": 5,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX15",
+    "externalId": "DF",
+    "number": 1360,
+    "count": 4,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX10",
+    "externalId": "UF",
+    "number": 1370,
+    "count": 4,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX6",
+    "externalId": "RG",
+    "number": 1380,
+    "count": 1,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX14",
+    "externalId": "CG",
+    "number": 1390,
+    "count": 2,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX8",
+    "externalId": "DX",
+    "number": 1400,
+    "count": 1,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "POP5",
+    "externalId": "POP5",
+    "number": 1410,
+    "count": 1,
+    "filter": true,
+    "block": "POP",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX11",
+    "externalId": "DS",
+    "number": 1420,
+    "count": 6,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX7",
+    "externalId": "TRR",
+    "number": 1430,
+    "count": 3,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX3",
+    "externalId": "DR",
+    "number": 1440,
+    "count": 1,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX2",
+    "externalId": "SS",
+    "number": 1450,
+    "count": 2,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX4",
+    "externalId": "MA",
+    "number": 1460,
+    "count": 1,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
+  },
+  {
+    "name": "EX12",
+    "externalId": "LM",
+    "number": 1470,
+    "count": 1,
+    "filter": true,
+    "block": "EX",
+    "legalFormats": [
+      "98c83df9-ec82-4193-84a8-104115ce4e25",
+      "6a1dec5a-34db-4cee-a503-4ee759304135"
+    ],
+    "featuredArchetypes": [],
+    "visibleUnfilterable": false,
+    "promo": false
   }
 ]
