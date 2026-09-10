@@ -2903,6 +2903,7 @@ class GameSession:
             [self._entity_moved_msg(picked.entity_id, active_area.entity_id, 0)],
         )
         await self.fire_move_to_active_triggers(picked)
+        await self._refresh_dynamic_attacks(player_id)
         return True
 
     def stat_add(self, player_id: str, key: str, amount: int = 1):
@@ -4505,6 +4506,26 @@ class GameSession:
 
         # Re-nest pre-existing attachments, then the pre-evolution card itself.
         for attachment in list(target.children):
+            definition = def_for(attachment.archetype_id)
+            if (
+                definition is not None
+                and getattr(definition, "attach_to", None)
+                and not definition.attach_to(card)
+            ):
+                discard = self.board_state.find_player_area(
+                    attachment.owning_player_id, "discard"
+                )
+                if discard is not None:
+                    position = len(discard.children)
+                    if self.board_state.move_card(
+                        attachment.entity_id, discard.entity_id, position
+                    ):
+                        moves.append(
+                            self._entity_moved_msg(
+                                attachment.entity_id, discard.entity_id, position
+                            )
+                        )
+                continue
             position = len(card.children)
             self.board_state.attach_card(attachment.entity_id, card.entity_id)
             moves.append(self._entity_moved_msg(attachment.entity_id, card.entity_id, position))
@@ -4624,6 +4645,22 @@ class GameSession:
         moves.append(self._entity_moved_msg(prev.entity_id, area.entity_id, slot))
         # ...inherits the attachments and any older stages...
         for other in [c for c in list(pokemon.children)]:
+            definition = def_for(other.archetype_id)
+            if (
+                definition is not None
+                and getattr(definition, "attach_to", None)
+                and not definition.attach_to(prev)
+            ):
+                position = len(dest.children)
+                if self.board_state.move_card(
+                    other.entity_id, dest.entity_id, position
+                ):
+                    moves.append(
+                        self._entity_moved_msg(
+                            other.entity_id, dest.entity_id, position
+                        )
+                    )
+                continue
             position = len(prev.children)
             self.board_state.attach_card(other.entity_id, prev.entity_id)
             moves.append(self._entity_moved_msg(other.entity_id, prev.entity_id, position))
@@ -5046,6 +5083,7 @@ class GameSession:
             self.turn_state.turn_number
         await self._apply_active_to_bench_counters(player_id, card)
         await self.fire_move_to_active_triggers(new_active)
+        await self._refresh_dynamic_attacks(player_id)
         # An Active-spot change can flip suppression passives (Tool Jammer).
         await self.resync_effective_max_hp()
 
