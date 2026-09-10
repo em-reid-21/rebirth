@@ -2283,7 +2283,9 @@ async def resolve_triggered_ability(
     """Runs a triggered ability (on-play/on-evolve/on-knocked-out/between-turns)
     with the full activation choreography; returns its ctx, or None when the
     ability didn't run (locked, or no scripted effect)."""
-    if ability_locked(session.board_state, pokemon) and not ability.is_granted:
+    if (isinstance(pokemon, PokemonEntity)
+            and ability_locked(session.board_state, pokemon)
+            and not ability.is_granted):
         return None
     if ability.effect is None or ability.effect is unimplemented:
         if ability.effect is unimplemented:

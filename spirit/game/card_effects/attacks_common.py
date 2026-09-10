@@ -19,6 +19,7 @@ from spirit.game.data_utils import Attack, def_for, has_rule_box, is_pokemon_v, 
 from spirit.game.card_effects.pokemon import energy_provides_type
 from spirit.game.session.effects import is_special_energy
 from spirit.game.session.legal_actions import energy_provided_count
+from spirit.game.session.passives import energy_provided_options
 
 _TOOL_TYPES = (TrainerType.POKEMON_TOOL.value, TrainerType.POKEMON_TOOL_F.value)
 _ENERGY_SCOPES = ("self", "attacker", "defender", "opponent_active", "my_active",
@@ -78,10 +79,10 @@ def _attack_ability_entries(pokemon) -> list:
             and e.get("abilityID")]
 
 
-def _provided_of_type(energy, type_value: int) -> int:
-    info = energy.get_attribute(AttrID.ENERGY_INFO) or {}
-    best = max((option.count(type_value)
-                for option in info.get("options", [])), default=0)
+def _provided_of_type(energy, type_value: int, board=None) -> int:
+    options = energy_provided_options(board, energy) if board is not None \
+        else (energy.get_attribute(AttrID.ENERGY_INFO) or {}).get("options", [])
+    best = max((option.count(type_value) for option in options), default=0)
     return best or 1
 
 
@@ -111,9 +112,9 @@ def count_energy(scope: str = "self", energy_type=None, cards: bool = False):
                 continue
             for energy in ctx.attached_energies(pokemon):
                 if type_value is None:
-                    total += 1 if cards else energy_provided_count(energy)
+                    total += 1 if cards else energy_provided_count(energy, ctx.board)
                 elif energy_provides_type(energy, type_value):
-                    total += 1 if cards else _provided_of_type(energy, type_value)
+                    total += 1 if cards else _provided_of_type(energy, type_value, ctx.board)
         return total
     return count
 
