@@ -1,5 +1,5 @@
 from spirit.game.card_effects.energies import ALL_TYPES_ONE_AT_A_TIME
-from spirit.game.data_utils import EnergyCardDef
+from spirit.game.data_utils import EnergyCardDef, def_for
 from spirit.game.attributes import PokemonTypes, Rarities
 from spirit.game.session.effects import is_special_energy
 from spirit.game.session.passives import Passive, carrier_pokemon
@@ -11,7 +11,9 @@ class MultiEnergyPassive(Passive):
     """Multi Energy becomes Colorless when another Special Energy shares its carrier."""
 
     def modify_energy_provided(self, options, energy, holder, board):
-        if carrier_pokemon(energy) is not holder or holder is None:
+        definition = def_for(energy.archetype_id)
+        if definition is None or definition.passive is not self \
+                or carrier_pokemon(energy) is not holder or holder is None:
             return options
         has_other_special = any(
             attached is not energy
