@@ -104,7 +104,9 @@
         "EX12",
         "EX13",
         "EX14",
-        "EX15"
+        "EX15",
+        "POP4",
+        "POP5"
       ],
       "allSets": false,
       "bannedCards": [],
