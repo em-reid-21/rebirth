@@ -117,7 +117,8 @@ from .passives import (
     ability_locked, active_passives, active_to_bench_counters,
     burn_recovery_blocked, effective_bench_capacity, effective_max_hp,
     effective_retreat_cost, energy_attach_taxer, evolve_heal_amount,
-    granted_extra_attacks, retreat_energy_destination, tool_slots_free,
+    granted_extra_attacks, on_retreat_discards, retreat_energy_destination,
+    tool_slots_free,
     tool_suppressed, special_energy_suppressed,
 )
 from .legal_actions import (
@@ -702,7 +703,7 @@ class GameSession:
             # SetIdleTimer is processed immediately, while the offer waits on
             # the sequence pump. Hold both until animations should have landed
             # so the 15s inactivity window is not consumed by playback.
-            await self._wait_for_client_catchup(CLIENT_CATCHUP_BUFFER_SECONDS)
+            # await self._wait_for_client_catchup(CLIENT_CATCHUP_BUFFER_SECONDS)
             await self._wait_for_connection_resume()
             if self.game_phase == GamePhase.GAME_OVER:
                 raise GameOver()
@@ -5050,6 +5051,12 @@ class GameSession:
             position = len(dest_area.children)
             if self.board_state.move_card(eid, dest_area.entity_id):
                 messages.append(self._entity_moved_msg(eid, dest_area.entity_id, position))
+
+        for discard_card in on_retreat_discards(self.board_state, card):
+            position = len(discard_area.children)
+            if self.board_state.move_card(discard_card.entity_id, discard_area.entity_id):
+                messages.append(self._entity_moved_msg(
+                    discard_card.entity_id, discard_area.entity_id, position))
         # The old active takes the new active's rendered SLOT (client stamp),
         # captured before the active move overwrites new_active's stamp with 0.
         slot = self.board_state.bench_slot_of(new_active)

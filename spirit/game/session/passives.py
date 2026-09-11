@@ -381,6 +381,13 @@ class Passive:
         `pokemon`'s retreat (Skaters' Park sends basic Energy to "hand")."""
         return None
 
+    def on_retreat(
+        self, pokemon: PokemonEntity, carrier: BoardEntity, board: BoardState
+    ) -> bool:
+        """True if `carrier` should be discarded when `pokemon` retreats
+        (Balloon Berry discards itself)."""
+        return False
+
     def counters_on_active_to_bench(
         self, pokemon: PokemonEntity, carrier: BoardEntity
     ) -> int:
@@ -832,6 +839,15 @@ def retreat_energy_destination(board: BoardState, pokemon: PokemonEntity,
         if dest is not None:
             return dest
     return None
+
+
+def on_retreat_discards(board: BoardState, pokemon: PokemonEntity) -> List[BoardEntity]:
+    """Cards discarded by passives when `pokemon` retreats (Balloon Berry)."""
+    to_discard = []
+    for passive, carrier in active_passives(board):
+        if passive.on_retreat(pokemon, carrier, board):
+            to_discard.append(carrier)
+    return to_discard
 
 
 def evolution_blocked(board: BoardState, player_id: str, target: PokemonEntity) -> bool:
