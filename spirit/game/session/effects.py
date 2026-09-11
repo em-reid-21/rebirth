@@ -2141,6 +2141,19 @@ def is_evolution_pokemon(card: CardEntity) -> bool:
     )
 
 
+def is_baby_pokemon(card: CardEntity) -> bool:
+    if not is_pokemon_card(card):
+        return False
+    abilities = card.get_attribute(AttrID.PIE_ABILITIES) or []
+    return any(
+        isinstance(ability, dict)
+        and (
+            ability.get("abilityID") == "baby_rule"
+            or (ability.get("title") or {}).get("id") == "baby_rule"
+        )
+        for ability in abilities
+    )
+
 def is_water_pokemon(card: CardEntity) -> bool:
     types = card.get_attribute(AttrID.POKEMON_TYPES) or []
     return is_pokemon_card(card) and PokemonTypes.WATER.value in types
@@ -2157,6 +2170,12 @@ def is_item_card(card: CardEntity) -> bool:
 def is_supporter_card(card: CardEntity) -> bool:
     return card.get_attribute(AttrID.TRAINER_TYPE) == TrainerType.SUPPORTER.value
 
+def is_stadium_card(card: CardEntity) -> bool:
+    return card.get_attribute(AttrID.TRAINER_TYPE) == TrainerType.STADIUM.value
+
+def is_tool_card(card: CardEntity) -> bool:
+    return card.get_attribute(AttrID.TRAINER_TYPE) in (
+        TrainerType.POKEMON_TOOL.value, TrainerType.POKEMON_TOOL_F.value)
 
 def is_special_energy(card: CardEntity) -> bool:
     return bool(card.get_attribute(AttrID.IS_SPECIAL_ENERGY))
